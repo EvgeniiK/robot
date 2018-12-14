@@ -11,20 +11,17 @@ class RobotInterface
     def call(args)
       case args[0]
         when 'PLACE'
-          @robot ||= Robot.new(args[1].to_i, args[2].to_i, args[3].to_sym)
+          p args
+          @robot ||= Robot.new(args[1].to_i, args[2].to_i, args[3]&.to_sym, table_x: args[4].to_i, table_y: args[5].to_i)
         when 'MOVE'
-          return unless @robot
-          @robot.move
+          @robot&.move
         when 'LEFT'
-          return unless @robot
-          @robot.turn_left
+          @robot&.turn_left
         when 'RIGHT'
-          return unless @robot
-          @robot.turn_right
+          @robot&.turn_right
         when 'REPORT'
-          return unless @robot
-          report = @robot.report
-          p "Output: #{report[:x]},#{report[:y]},#{report[:facing]}"
+          report = @robot&.report
+          p "Output: #{report[:x]},#{report[:y]},#{report[:facing]}" if report
         else
           p 'Not valid'
       end
@@ -34,8 +31,4 @@ class RobotInterface
   end
 end
 
-RobotInterface.call(['PLACE',0,0,:NORTH])
-RobotInterface.call(['MOVE'])
-RobotInterface.call(['REPORT'])
-
-# RobotInterface.argf
+RobotInterface.argf
