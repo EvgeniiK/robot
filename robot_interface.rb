@@ -11,8 +11,12 @@ class RobotInterface
     def call(args)
       case args[0]
         when 'PLACE'
-          p args
-          @robot ||= Robot.new(args[1].to_i, args[2].to_i, args[3]&.to_sym, table_x: args[4].to_i, table_y: args[5].to_i)
+          @robot ||= if args[4]
+                       Robot.new(args[1].to_i, args[2].to_i, args[3]&.to_sym,
+                                 table_x: args[4].to_i, table_y: args[5].to_i)
+                     else
+                       Robot.new(args[1].to_i, args[2].to_i, args[3]&.to_sym)
+                     end
         when 'MOVE'
           @robot&.move
         when 'LEFT'
